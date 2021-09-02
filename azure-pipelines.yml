@@ -7,11 +7,15 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-2019
 
 variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'Visual Studio Enterprise(e9a8f3f9-354d-420f-94b3-108366cb911c)'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az vm start --resource-group vmTestWin10 --name testdev --subscription ''Visual Studio Enterprise'''
